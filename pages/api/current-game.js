@@ -6,7 +6,7 @@ const fetchCurrentGame = async (req, res) => {
 
   const currentGame = await sqlQuery(query);
 
-  res.status(200).json({ currentGame });
+  res.status(200).json({ game: currentGame });
 };
 
 export default fetchCurrentGame;
