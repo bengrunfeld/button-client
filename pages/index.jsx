@@ -3,6 +3,8 @@ import Head from "next/head";
 import fetch from "isomorphic-unfetch";
 import cookies from "next-cookies";
 
+import { getCurrentGame } from "../lib";
+
 import { HomePage } from "../components";
 
 const Home = ({ data }) => (
@@ -26,13 +28,7 @@ const getProtocol = host => {
 Home.getInitialProps = async ctx => {
   const { req } = ctx;
 
-  // Establish connection to database
-  const host = ((req || {}).headers || {}).host;
-  const safetyHost = host || "https://buttongame.com";
-  const protocol = getProtocol(safetyHost);
-
-  const res = await fetch(`${protocol}/api/current-game`);
-  const gameInfo = await res.json();
+  const gameInfo = await getCurrentGame(req);
 
   // Check cookie for User wallet address
   const userInfo = cookies(ctx).userInfo || "";
