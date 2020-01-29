@@ -1,7 +1,6 @@
 import React from "react";
 import Head from "next/head";
 import fetch from "isomorphic-unfetch";
-import { Title } from "./index.styles";
 
 const Home = () => (
   <div>
@@ -13,7 +12,7 @@ const Home = () => (
       <meta name="viewport" content="width=device-width, user-scalable=no" />
     </Head>
 
-    <Title>Test</Title>
+    <h1>Test</h1>
   </div>
 );
 
