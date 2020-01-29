@@ -1,6 +1,9 @@
 import React from "react";
 import Head from "next/head";
 import fetch from "isomorphic-unfetch";
+import cookies from "next-cookies";
+
+import { HomePage } from "../components";
 
 const Home = ({ data }) => (
   <div>
@@ -10,7 +13,7 @@ const Home = ({ data }) => (
       <meta name="viewport" content="width=device-width, user-scalable=no" />
     </Head>
 
-    <h1>Last Pressed: {data.currentGame[0].last_pressed}</h1>
+    <HomePage data={data} />
   </div>
 );
 
@@ -20,13 +23,20 @@ const getProtocol = host => {
   return `http://${host}`;
 };
 
-Home.getInitialProps = async ({ req, query }) => {
+Home.getInitialProps = async ctx => {
+  const { req } = ctx;
+
+  // Establish connection to database
   const host = ((req || {}).headers || {}).host;
   const safetyHost = host || "https://buttongame.com";
   const protocol = getProtocol(safetyHost);
 
   const res = await fetch(`${protocol}/api/current-game`);
-  const data = await res.json();
+  const gameInfo = await res.json();
+
+  // Check cookie for User wallet address
+  const userInfo = cookies(ctx).userInfo || "";
+  const data = Object.assign({}, gameInfo, userInfo);
 
   return { data };
 };
