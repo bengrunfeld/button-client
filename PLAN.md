@@ -4,19 +4,21 @@
 
 - Set up an AWS Redis instance to store the timestamp of the last button press in an in-memory cache. This makes it SUPER fast to load, and is highly available around the globe. The data stored here would contain the ID of the game which is currently in progress. So we'd download GAME_ID and LAST_PRESSED_DATETIME from Redis, and there would ONLY be ONE data record there, which gets overwritten or destroyed and then re-created on each new game start. We'd then use that GAME_ID to go and interact with the other data from AWS RDS.
 
-- Store the Player (User) data in a SQL database. Relations are required between PLAYER and GAME_HISTORY, but we don't need it to be AS fast as the game timestamp. This way, we save money, since Redis is expensive, and we don't need MEGA-HIGH performance for this feature. Use AWS RDS.
+  - UPDATE re Redis: I tested response time from AWS RDS, and it's about 200ms, which is enough for this test. I'd only implement Redis for a full Production app.
 
-- A cool feature might be to use Swagger and JSON-API to implement documentation and standardization for API's. This is a "nice-to-have" so it will be implemented last.
+- Store the Player (User) data in a SQL database. Relations are required between PLAYER and GAME, but we don't need it to be AS fast as the game timestamp. This way, we save money, since Redis is expensive, and we don't need MEGA-HIGH performance for this feature. Use AWS RDS.
+
+- A cool feature might be to use Swagger and JSON-API to implement documentation and standardization for API's. This is a "nice-to-have" so it will be implemented last, if at all.
 
 - High speed page load is important, so SSR and high-availability edge caching with Zeit Now and NextJS.
 
-- Because we're ingesting data from external and untrusted sources (i.e. not our own code), we'll use TypeScript.
+- Because we're ingesting data from external and untrusted sources (DB, User input), we'll use TypeScript and will filter User input.
 
-- Let's keep the code clean, so ESLint and Prettier with compatability for TypeScript. Also, code should adhere to our internal styleguide. Readability is king.
+- Let's keep the code clean, so ESLint and Prettier with compatability for TypeScript. Also, code should adhere to our internal styleguide (STYLE_GUIDE.md). Readability is king.
 
-- Unit and integration tests are required for behavior and services like external wallets. Use Supertest for API testing.
+- Unit and integration tests are required for behavior and services like external wallets.
 
-- Create a visual chart of the architecture of the app, then present it in a short video. Also, make an ERD.
+- Create a visual chart of the architecture of the app and an ERD for DB.
 
 - Use Formik to aid with form creation and maintenance. Read up on it.
 
@@ -52,6 +54,37 @@
 
 - This IS a game, so there's no reason not to have a catchy sound for Click, Win, and Lose. Might be nice to have a Sound ON/OFF button. Page would need to be interactive ASAP, and if these assets took a while to load, they'd come in later.
 
+## Tech Journey
+
+1. USER visits CLIENT via browser and enters Account Info
+
+2. CLIENT sends POST request to SERVER with own webhook endpoint and USER Account Info
+
+3. SERVER records CLIENT webhook endpoint in DB `client_webhook` table
+
+4. SERVER records SERVER webhook endpoint in DB `server_webhook` table
+
+5. SERVER checks DB `current_game` table for current game info
+
+6. If none exists, SERVER creates new game in DB in `game` table, and then uses its id to populate `current_game` table.
+
+7. If game exists, SERVER retrieves `game_id` and `last_pressed`
+
+8. SERVER updates `game` table with new amount, and `player` table with account info
+
+9. SERVER maps through all `client_webhook` endpoints and sends POST request to them with:
+
+- game_id
+- last_pressed
+- current_amount
+- game_status
+
+10. SERVER maps through all `server_webhook` endpoints and sends POST request to them with `last_pressed`, so that they can start the countdown again.
+
+11. If countdown reaches zero, SERVER maps through all the endpoints in `client_webhook` and sends POST to them with game finished info.
+
+12. CLIENT receives data via webhook and displays it to the USER
+
 ## User Journey
 
 1. User navigates to URL
@@ -68,25 +101,36 @@
 
 ## Database Schema
 
-## PLAYER
+### PLAYER
 
-id (PK)
+player_id (PK)
 wallet_in (maybe token?)
 wallet_out
 email
 
-## GAME
+### GAME
 
-id (PK)
+game_id (PK)
 winner_user_id
-amount
+current_amount
 game_status
 
-## PLAYER_GAME
+### PLAYER_GAME
 
-id (PK)
+player_game_id (PK)
 player_id (FK)
 game_id (FK)
+
+### WEBHOOK
+
+webhook_id (PK)
+endpoint
+
+### CURRENT_GAME
+
+id (PK)
+game_id (FK)
+last_pressed
 
 ## Tech Stack
 
