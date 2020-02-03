@@ -2,8 +2,6 @@ import Head from "next/head";
 import fetch from "isomorphic-unfetch";
 import cookies from "next-cookies";
 
-import { getCurrentGame, createNewGame } from "../lib";
-
 import { HomePage } from "../components";
 
 const Home = ({ data }) => (
@@ -19,10 +17,6 @@ const Home = ({ data }) => (
 );
 
 Home.getInitialProps = async ctx => {
-  //   const { req } = ctx;
-  //   const gameInfo = await getCurrentGame(req);
-  //   if (gameInfo?.game?.length === 0) await createNewGame(req);
-
   // Check cookie for User wallet address
   const userInfo = cookies(ctx).userInfo || "";
 
