@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { GameScreen, SignInPage } from "../";
+import { GameScreen, NotSupported } from "../";
 
 const checkEthereumSupport = window => typeof window.ethereum !== "undefined";
 
@@ -12,7 +12,7 @@ const HomePage = ({ data }) => {
 
   // If ethereum dapp is not supported in Browser, request
   // that User navigates to MetaMask and installs it.
-  return supported ? <GameScreen data={data} /> : <SignInPage data={data} />;
+  return supported ? <GameScreen data={data} /> : <NotSupported data={data} />;
 };
 
 export default HomePage;

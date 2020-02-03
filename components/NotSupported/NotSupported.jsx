@@ -5,9 +5,9 @@ import {
   SignInContainer,
   Title,
   Well,
-} from "./SignInPage.styles.js";
+} from "./NotSupported.styles.js";
 
-const SignInPage = ({ data }) => (
+const NotSupported = ({ data }) => (
   <SignInContainer>
     <Title>The Button Game</Title>
     <Well>
@@ -21,4 +21,4 @@ const SignInPage = ({ data }) => (
   </SignInContainer>
 );
 
-export default SignInPage;
+export default NotSupported;
