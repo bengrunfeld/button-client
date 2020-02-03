@@ -7,7 +7,7 @@ const HomePage = ({ data }) => {
   const [supported, setSupported] = useState(false);
 
   useEffect(() => {
-    setSupported(checkEthereumSupport(window));
+    setTimeout(() => setSupported(checkEthereumSupport(window)), 1000);
   });
 
   // If ethereum dapp is not supported in Browser, request
