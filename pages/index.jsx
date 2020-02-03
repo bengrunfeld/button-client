@@ -20,15 +20,14 @@ const Home = ({ data }) => (
 );
 
 Home.getInitialProps = async ctx => {
+  //   const { req } = ctx;
+  //   const gameInfo = await getCurrentGame(req);
+  //   if (gameInfo?.game?.length === 0) await createNewGame(req);
+
   // Check cookie for User wallet address
   const userInfo = cookies(ctx).userInfo || "";
 
-  const { req } = ctx;
-  const gameInfo = await getCurrentGame(req);
-
-  if (gameInfo?.game?.length === 0) await createNewGame(req);
-
-  const data = Object.assign({}, gameInfo, userInfo);
+  const data = { userInfo, gameInfo: "", gameExists: false };
 
   return { data };
 };

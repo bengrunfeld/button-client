@@ -1,6 +1,7 @@
-const HomePage = ({ data }) => {
-  return <h1>Home Page</h1>;
-};
+import { GameScreen, SignInForm } from "../";
+
+const HomePage = ({ data }) =>
+  data.accountInfo ? <GameScreen data={data} /> : <SignInForm data={data} />;
 
 export default HomePage;
 
