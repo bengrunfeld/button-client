@@ -1,40 +1,26 @@
-import React from "react";
 import Head from "next/head";
 import fetch from "isomorphic-unfetch";
+import cookies from "next-cookies";
 
-const Home = () => (
+import { HomePage } from "../components";
+
+const Home = ({ data }) => (
   <div>
     <Head>
-      <title>
-        485 Visa Insurance | Compare Multiple Providers In One Place
-      </title>
+      <title>The Button Game</title>
       <link rel="icon" href="/favicon.ico" />
       <meta name="viewport" content="width=device-width, user-scalable=no" />
     </Head>
 
-    <h1>Test</h1>
+    <HomePage data={data} />
   </div>
 );
 
-const getProtocol = host => {
-  if (process.env.NODE_ENV === "production") return `https://${host}`;
+Home.getInitialProps = async ctx => {
+  // Check cookie for User wallet address
+  const userInfo = cookies(ctx).userInfo || "";
 
-  return `http://${host}`;
-};
-
-Home.getInitialProps = async ({ req, query }) => {
-  const host = ((req || {}).headers || {}).host;
-
-  const safetyHost = host || "https://485visainsurance.com.au";
-
-  const protocol = getProtocol(safetyHost);
-
-  const table = query.table || "budget_hospital_family";
-
-  const res = await fetch(
-    `${protocol}/api/products/485-visa-health-insurance/${table}`
-  );
-  const data = await res.json();
+  const data = { userInfo, gameInfo: "", gameExists: false };
 
   return { data };
 };
