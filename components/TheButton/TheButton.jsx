@@ -1,9 +1,5 @@
-import { ButtonContainer, Button } from "./TheButton.styles";
+import { Button } from "./TheButton.styles";
 
-const TheButton = ({ account }) => (
-  <ButtonContainer>
-    <Button>PRESS</Button>
-  </ButtonContainer>
-);
+const TheButton = ({ account }) => <Button>PRESS</Button>;
 
 export default TheButton;

@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-export const ButtonContainer = styled.div``;
-
 export const Button = styled.div`
   height: 5rem;
   width: 3rem;
@@ -16,6 +14,7 @@ export const Button = styled.div`
   font-weight: bold;
   background-color: #538fbe;
   padding: 20px 70px;
+  margin-bottom: 3rem;
   font-size: 24px;
   border: 1px solid #2d6898;
   background-image: linear-gradient(

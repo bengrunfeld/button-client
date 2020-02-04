@@ -48,6 +48,14 @@ export const InfoMessage = styled.p`
   color: #3e3e3e;
 `;
 
+export const SmallInfoMessage = styled.p`
+  font-family: ${({ theme }) => theme.font.prompt};
+  font-size: 1.4rem;
+  padding: 1.4rem 0;
+  text-align: center;
+  color: #3e3e3e;
+`;
+
 export const InfoLink = styled.a`
   font-family: ${({ theme }) => theme.font.prompt};
   font-size: 1.8rem;
