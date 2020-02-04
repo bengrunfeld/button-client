@@ -8,13 +8,16 @@ const HomePage = ({ data }) => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    // 1. Check if the browser supports dapps. If not, bail and render info message
+    // Check if the browser supports dapps. If not, bail and render info message
     const isEthSupported = checkEthereumSupport(window);
 
     if (!isEthSupported) {
       setError(errVal.notSupported);
       return;
     }
+
+    // User is already logged in, so take them to the Game Screen
+    if (ethereum.selectedAddress) return;
 
     // Manually reload page after User login. MetaMask suggests doing this.
     ethereum.on("networkChanged", networkId => {
@@ -28,9 +31,6 @@ const HomePage = ({ data }) => {
       try {
         setError(errVal.notLoggedIn);
         await ethereum.enable();
-
-        // Success. Remove error
-        setError(false);
       } catch (loginError) {
         if (loginError === "User rejected provider access") {
           setError(errVal.loginRefused);
@@ -53,11 +53,14 @@ const HomePage = ({ data }) => {
         return;
       }
 
-      console.log(ethereum.selectedAddress);
-      if (!ethereum.selectedAddress) {
-        setError(errVal.notLoggedIn);
-        return;
-      }
+      // Takes a little time for address to become available
+      setTimeout(() => {
+        if (!ethereum.selectedAddress) {
+          setError(errVal.notLoggedIn);
+          return;
+        }
+        setError(false);
+      }, 1000);
     };
 
     activateAccount();
