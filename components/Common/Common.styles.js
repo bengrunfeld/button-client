@@ -10,14 +10,6 @@ export const InfoContainer = styled.div`
   padding: 0 4rem;
 `;
 
-export const Title = styled.h1`
-  font-family: ${({ theme }) => theme.font.prompt};
-  font-size: 4rem;
-  text-align: center;
-  padding-bottom: 5rem;
-  text-transform: uppercase;
-`;
-
 export const Well = styled.div`
   padding: 3rem;
   border: 2px solid #787878;
@@ -29,6 +21,15 @@ export const Well = styled.div`
   align-items: center;
   flex-direction: column;
   background: #ebe8eb;
+`;
+
+export const Title = styled.h1`
+  font-family: ${({ theme }) => theme.font.prompt};
+  font-size: 4rem;
+  text-align: center;
+  padding-bottom: 5rem;
+  text-transform: uppercase;
+  color: #3e3e3e;
 `;
 
 export const InfoTitle = styled.h2`

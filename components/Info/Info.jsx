@@ -1,11 +1,11 @@
 import {
+  InfoContainer,
   InfoLink,
   InfoMessage,
   InfoTitle,
-  InfoContainer,
   Title,
   Well,
-} from "./Info.styles.js";
+} from "../Common";
 
 const Info = ({ title, message, link }) => (
   <InfoContainer>
