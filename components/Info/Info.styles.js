@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SignInContainer = styled.div`
+export const InfoContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
