@@ -110,7 +110,7 @@ const HomePage = ({ data }) => {
       />
     );
 
-  return <GameScreen data={data} account="account" />;
+  return <GameScreen data={data} />;
 };
 
 export default HomePage;

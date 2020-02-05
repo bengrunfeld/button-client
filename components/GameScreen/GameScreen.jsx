@@ -2,13 +2,13 @@ import { Well, Title, InfoTitle, SmallInfoMessage } from "../Common";
 import { GameContainer } from "./GameScreen.styles";
 import { TheButton } from "../";
 
-const GameScreen = ({ data, account }) => (
+const GameScreen = ({ data }) => (
   <GameContainer>
     <Title>The Button Game</Title>
     <Well>
       <InfoTitle>Click the button to play</InfoTitle>
 
-      <TheButton account={account} />
+      <TheButton />
 
       <SmallInfoMessage>
         Game Rules: This is a multiplayer game. Once someone presses the button,
