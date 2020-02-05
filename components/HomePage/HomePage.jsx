@@ -114,6 +114,3 @@ const HomePage = ({ data }) => {
 };
 
 export default HomePage;
-
-// import Cookies from "js-cookie";
-// Cookies.set("userInfo", "Ben");
