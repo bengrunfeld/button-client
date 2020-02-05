@@ -4,7 +4,7 @@ import { TheButton, Clock } from "../";
 import { useState, useEffect } from "react";
 
 const GameScreen = ({ data }) => {
-  const fullGameTime = 5;
+  const fullGameTime = 30;
   const [timeLeft, setTimeLeft] = useState(fullGameTime);
   const [timerRef, setTimerRef] = useState(false);
 
