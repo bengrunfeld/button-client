@@ -6,7 +6,6 @@ const checkEthereumSupport = window => typeof window.ethereum !== "undefined";
 
 const HomePage = ({ data }) => {
   const [error, setError] = useState(false);
-  const [userAccounts, setAccounts] = useState(false);
 
   useEffect(() => {
     // Check if the browser supports dapps. If not, bail and render info message
@@ -31,8 +30,7 @@ const HomePage = ({ data }) => {
 
       try {
         setError(errVal.notLoggedIn);
-        const accounts = await ethereum.enable();
-        setAccounts(accounts);
+        await ethereum.enable();
       } catch (loginError) {
         if (loginError === "User rejected provider access") {
           setError(errVal.loginRefused);
@@ -112,7 +110,7 @@ const HomePage = ({ data }) => {
       />
     );
 
-  return <GameScreen data={data} accounts={userAccounts} />;
+  return <GameScreen data={data} />;
 };
 
 export default HomePage;
