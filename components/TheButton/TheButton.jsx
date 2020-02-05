@@ -36,8 +36,6 @@ const sendEth = (startCountdown, gameTime, timerRef, setTimerRef) => {
     if (response.result) {
       console.log("Ether sent successfully!");
 
-      console.log(gameTime, timerRef);
-
       // Clean up the old timer
       if (timerRef) clearInterval(timerRef);
 
