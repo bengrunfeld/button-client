@@ -42,7 +42,7 @@ const sendEth = (startCountdown, gameTime, timerRef, setTimerRef) => {
       if (timerRef) clearInterval(timerRef);
 
       // Reset the timer
-      const newTimer = startCountdown(gameTime);
+      const newTimer = startCountdown(gameTime + 1);
 
       // Store the new timer in state
       setTimerRef(newTimer);
