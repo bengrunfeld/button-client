@@ -1,6 +1,6 @@
 import { Button } from "./TheButton.styles";
 
-const sendEth = () => {
+const sendEth = (startCountdown, gameTime, timerRef, setTimerRef) => {
   const fromAccount = ethereum.selectedAddress;
   const method = "eth_sendTransaction";
   const destinationAddress = "0x4dB238a8AC1647378373d0F97B9351B074b7B1c9";
@@ -24,17 +24,27 @@ const sendEth = () => {
     const rejected = "User denied transaction signature.";
 
     if (response.error && response.error.code === 4001) {
-      console.log(`We can't take your money without your permission.`);
+      alert(`We can't take your money without your permission.`);
       return;
     }
 
     if (error) {
-      console.log("There was an issue, please try again.");
+      alert("There was an issue, please try again.");
       return;
     }
 
     if (response.result) {
       console.log("Ether sent successfully!");
+
+      // Clean up the old timer
+      if (timerRef) clearInterval(timerRef);
+
+      // Reset the timer
+      const newTimer = startCountdown(gameTime + 1);
+
+      // Store the new timer in state
+      setTimerRef(newTimer);
+
       return;
     }
   };
@@ -42,8 +52,20 @@ const sendEth = () => {
   ethereum.send(payload, callback);
 };
 
-const TheButton = () => {
-  return <Button onClick={sendEth}>PRESS</Button>;
+const TheButton = ({ startCountdown, gameTime, timerRef, setTimerRef }) => {
+  return (
+    <Button
+      onClick={sendEth.bind(
+        this,
+        startCountdown,
+        gameTime,
+        timerRef,
+        setTimerRef
+      )}
+    >
+      PRESS
+    </Button>
+  );
 };
 
 export default TheButton;
